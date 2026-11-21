@@ -22,8 +22,19 @@ h1 { font-size: 1.9rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1rem; }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 16px 48px; }
 
 nav { background: #08100c; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
-nav .inner { max-width: 1100px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px;
-  align-items: center; overflow-x: auto; white-space: nowrap; }
+nav .inner { max-width: 1100px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; align-items: center; }
+nav .links { display: flex; gap: 4px; }
+nav .menu-btn { display: none; margin-left: auto; background: none; border: 1px solid var(--line); color: var(--text);
+  border-radius: 10px; width: 44px; height: 40px; font-size: 1.4rem; cursor: pointer; }
+@media (max-width: 760px) {
+  nav .inner { flex-wrap: wrap; padding: 8px 16px; }
+  nav .menu-btn { display: block; }
+  nav .brand { padding: 6px 0; margin-right: 0; }
+  nav .links { display: none; flex-direction: column; width: 100%; gap: 0; padding: 6px 0 4px; }
+  nav .links.open { display: flex; }
+  nav a.link { padding: 12px 8px; border-bottom: 1px solid var(--line); border-left: 3px solid transparent; }
+  nav a.link.active { border-bottom-color: var(--line); border-left-color: var(--accent); }
+}
 nav .brand { font-weight: 800; font-size: 1.1rem; margin-right: 12px; padding: 12px 0; color: var(--accent); }
 nav a.link { padding: 14px 10px; color: var(--muted); font-weight: 600; border-bottom: 2px solid transparent; }
 nav a.link.active { color: var(--text); border-color: var(--accent); }
@@ -108,7 +119,7 @@ td.strong { font-weight: 800; }
 .ccard h3 { font-size: 1.3rem; margin: 0; }
 .ccard .cpts { font-size: 1.05rem; color: var(--gold); margin: 2px 0; }
 .ccard .cpts b { font-size: 1.6rem; }
-.tgrid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+.tgrid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
 .tcard { display: block; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: var(--panel);
   transition: transform .15s, border-color .15s, box-shadow .15s; }
 .tcard:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 10px 30px #0006; color: inherit; }
@@ -117,9 +128,11 @@ td.strong { font-weight: 800; }
 .tcard-name { font-size: 1.3rem; font-weight: 800; }
 .tcard-date { color: var(--muted); }
 .tcard-tag { background: var(--accent); color: #05140b; font-size: .68rem; font-weight: 800; letter-spacing: .08em; padding: 3px 9px; border-radius: 99px; }
-.tcard-chips { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 18px 12px; font-size: .78rem; color: var(--muted);
-  background: linear-gradient(#12251c, var(--panel)); }
-.tcard-chips span { background: #0b1410aa; border: 1px solid var(--line); border-radius: 99px; padding: 2px 10px; }
+.tcard-head { flex-direction: column; align-items: center; text-align: center; gap: 2px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.tcard-head .tcard-tag { margin-bottom: 4px; }
+.tcard-icons { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: .85rem; color: var(--muted);
+  font-variant-numeric: tabular-nums; }
+.tpodium { padding-top: 16px; }
 .tpodium { display: flex; justify-content: center; align-items: flex-end; gap: 10px; padding: 8px 14px 0; }
 .tstep { flex: 1; max-width: 120px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; }
 .tstep .avatar { border-width: 3px; }
@@ -134,6 +147,24 @@ td.strong { font-weight: 800; }
 .ts3 .tblock { height: 28px; background: linear-gradient(var(--bronze), #8f5a2c); }
 .tothers { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 12px 16px 14px; border-top: 1px solid var(--line); background: var(--panel2); }
 .tother { display: flex; align-items: center; gap: 8px; font-size: .85rem; }
+.cab-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.cab-card { position: relative; display: block; text-align: center; padding: 22px 14px 18px; border-radius: 18px; border: 1px solid var(--line);
+  background: radial-gradient(circle at 50% 0%, #1f5a3b 0%, #12251c 60%, var(--panel2) 100%); transition: transform .15s, border-color .15s; }
+.cab-card:hover { transform: translateY(-3px); border-color: var(--accent); color: inherit; }
+.cab-card.first { border-color: #7a6418; background: radial-gradient(circle at 50% 0%, #5a4a14 0%, #1f2a1a 60%, var(--panel2) 100%); }
+.cab-crown { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); font-size: 1.6rem; z-index: 1; }
+.cab-card .avatar { display: block; margin: 8px auto 10px; border: 4px solid var(--accent); box-shadow: 0 0 0 6px #2ee07a22, 0 10px 26px #0008; }
+.cab-card.first .avatar { border-color: var(--gold); box-shadow: 0 0 0 6px #ffcf3f22, 0 10px 26px #0008; }
+.cab-card h3 { font-size: 1.35rem; margin: 0 0 12px; }
+.cab-medals { display: flex; justify-content: center; gap: 12px; padding-top: 12px; border-top: 1px solid #ffffff14; }
+.cab-medal { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.cab-medal .disc { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.2rem; color: #1b1500; box-shadow: inset 0 2px 4px #ffffff66, inset 0 -3px 6px #0004, 0 4px 10px #0006; }
+.cab-medal.gold .disc { background: radial-gradient(circle at 30% 25%, #fff0a6, var(--gold) 55%, #b8901a); }
+.cab-medal.silver .disc { background: radial-gradient(circle at 30% 25%, #fff, var(--silver) 55%, #8d969c); }
+.cab-medal.bronze .disc { background: radial-gradient(circle at 30% 25%, #f5c79a, var(--bronze) 55%, #8f5a2c); }
+.cab-medal.none { opacity: .35; }
+.cab-medal span { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .chips { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin: 6px 0; }
 .chip { background: var(--panel2); border: 1px solid var(--line); border-radius: 99px; padding: 2px 10px; font-weight: 700; font-size: .85rem; }
 .pcard .mini { display: flex; justify-content: space-around; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }

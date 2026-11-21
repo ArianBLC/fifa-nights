@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Tournaments from './pages/Tournaments.jsx';
 import TournamentDetail from './pages/TournamentDetail.jsx';
@@ -14,16 +14,24 @@ const links = [
 ];
 
 export default function App() {
+  const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  useEffect(() => { setOpen(false); }, [pathname]); // close the mobile menu after navigating
   return (
     <>
       <nav>
         <div className="inner">
           <NavLink to="/" className="brand">⚽ FIFA Nights</NavLink>
-          {links.map(([to, label]) => (
-            <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => 'link' + (isActive ? ' active' : '')}>
-              {label}
-            </NavLink>
-          ))}
+          <button className="menu-btn" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}>
+            {open ? '✕' : '☰'}
+          </button>
+          <div className={'links' + (open ? ' open' : '')}>
+            {links.map(([to, label]) => (
+              <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => 'link' + (isActive ? ' active' : '')}>
+                {label}
+              </NavLink>
+            ))}
+          </div>
         </div>
       </nav>
       <div className="container">

@@ -4,7 +4,7 @@ import { model, nextNight } from '../data/model.js';
 import { Countdown, MedalCabinet, PlayerLink, f2, pct } from '../components/ui.jsx';
 import { TournamentGrid } from '../components/TournamentCard.jsx';
 
-const RECENT = 4;
+const RECENT = 3; // always show the 3 most recent tournaments
 
 export default function Home() {
   const leaders = model.allTime.slice(0, 8);
@@ -18,6 +18,11 @@ export default function Home() {
         <h1>{dateStr} · {timeStr}</h1>
         <Countdown to={nextNight.date} />
         {nextNight.note && <div className="muted">{nextNight.note}</div>}
+      </section>
+
+      <section className="card">
+        <div className="head"><h2>🏟️ Recent tournaments</h2><Link to="/tournaments" className="muted">View all {model.tournaments.length} →</Link></div>
+        <TournamentGrid limit={RECENT} />
       </section>
 
       <section className="card">
@@ -44,10 +49,6 @@ export default function Home() {
         <div className="muted" style={{ fontSize: '.8rem', marginTop: 6 }}>Ranked by points per game, so missing a few nights doesn't hurt.</div>
       </section>
 
-      <section style={{ marginTop: 18 }}>
-        <div className="head"><h2>🏟️ Recent tournaments</h2><Link to="/tournaments" className="muted">View all {model.tournaments.length} →</Link></div>
-        <TournamentGrid limit={RECENT} />
-      </section>
     </>
   );
 }

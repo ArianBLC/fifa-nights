@@ -11,16 +11,13 @@ export default function TournamentCard({ t, latest }) {
   return (
     <Link to={`/tournaments/${t.number}`} className="tcard">
       <div className="tcard-head">
-        <div>
-          <div className="tcard-name">Fifa tournament {t.number}</div>
-          <div className="tcard-date">{t.month} {t.year}</div>
+        <div className="tcard-name">Fifa tournament {t.number}</div>
+        <div className="tcard-date">{t.month} {t.year}</div>
+        <div className="tcard-icons">
+          <span title="Players">👥 {t.players.length} players</span>
+          <span title="Matches">⚽ {t.matches.length} matches</span>
+          <span title="Goals">🥅 {t.goals} goals</span>
         </div>
-        {latest && <span className="tcard-tag">LATEST</span>}
-      </div>
-      <div className="tcard-chips">
-        <span>👥 {t.players.length} players</span>
-        <span>⚽ {t.matches.length} matches</span>
-        <span>🥅 {t.goals} goals</span>
       </div>
 
       <div className="tpodium">

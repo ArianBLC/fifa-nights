@@ -76,15 +76,24 @@ export function MedalChips({ gold, silver, bronze }) {
   );
 }
 
+// Players on the medal cabinet, ranked by gold, then silver, then bronze.
 export function MedalCabinet({ rows }) {
   return (
-    <div className="cabinet">
-      {rows.map((m) => (
-        <div className="item" key={m.player}>
-          <PlayerLink name={m.player} size={64} hideName />
-          <div><b>{m.player}</b></div>
-          <div className="t">{'🥇'.repeat(m.gold)}{'🥈'.repeat(m.silver)}{'🥉'.repeat(m.bronze)}</div>
-        </div>
+    <div className="cab-grid">
+      {rows.map((m, i) => (
+        <Link key={m.player} to={`/players/${encodeURIComponent(m.player)}`} className={'cab-card' + (i === 0 ? ' first' : '')}>
+          {i === 0 && <div className="cab-crown">👑</div>}
+          <Avatar name={m.player} size={110} />
+          <h3>{m.player}</h3>
+          <div className="cab-medals">
+            {[['gold', m.gold, 'Gold'], ['silver', m.silver, 'Silver'], ['bronze', m.bronze, 'Bronze']].map(([k, n, label]) => (
+              <div key={k} className={`cab-medal ${k}` + (n === 0 ? ' none' : '')}>
+                <div className="disc">{n}</div>
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+        </Link>
       ))}
     </div>
   );
