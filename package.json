@@ -1,0 +1,24 @@
+{
+  "name": "fifa-nights",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "import": "node scripts/import.mjs",
+    "dev": "npm run import && vite",
+    "build": "npm run import && vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/stats.test.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "recharts": "^2.12.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.8",
+    "xlsx": "^0.18.5"
+  }
+}

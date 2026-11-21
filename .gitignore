@@ -1,0 +1,7 @@
+node_modules
+dist
+src/data/generated.json
+~$*.xlsx
+# original copies in the project root (the site uses data/ and public/avatars/)
+/*.xlsx
+/avatars/
