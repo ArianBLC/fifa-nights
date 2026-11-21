@@ -4,6 +4,7 @@ import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, R
 import { model } from '../data/model.js';
 import { playerProfile } from '../lib/stats.js';
 import HeadToHeadView from '../components/HeadToHeadView.jsx';
+import StatCards from '../components/StatCards.jsx';
 import { Avatar, Badge, MatchLine, MedalChips, PlayerLink, Pos, StatBox, TrophyIcon, f2, pct, signed, tooltipStyle } from '../components/ui.jsx';
 
 const GameText = ({ g }) => <>{g.gf}–{g.ga} vs {g.opp} <span className="muted">({g.t.name.replace('Fifa tournament', 'T')})</span></>;
@@ -64,17 +65,7 @@ export default function PlayerDetail() {
         </div>
       </div>
 
-      <div className="grid cols3" style={{ marginTop: 18 }}>
-        <StatBox k="Titles" v={prof.titles} s={`${entries.length} tournaments`} />
-        <StatBox k="Win rate" v={pct(r.winRate)} s={`${r.w}W ${r.d}D ${r.l}L`} />
-        <StatBox k="Points per game" v={f2(r.ppg)} s={`${r.pts} pts total`} />
-        <StatBox k="Goals" v={`${r.gf} : ${r.ga}`} s={`${signed(r.gd)} · ${f2(r.gfpg)} scored / game`} />
-        <StatBox k="Clean sheets" v={prof.cleanSheets} s={pct(prof.cleanSheets / r.p) + ' of matches'} />
-        <StatBox k="All-time rank" v={`#${r.pos} / ${model.allTime.length}`} s="by points per game" />
-        <StatBox k="Longest win streak" v={prof.longestWin} s={`unbeaten run: ${prof.longestUnbeaten}`} />
-        <StatBox k="Best tournament" v={`T${prof.bestT.t.number}`} s={`${f2(prof.bestT.ppg)} PPG · ${prof.bestT.pos}${['st','nd','rd'][prof.bestT.pos - 1] || 'th'} place`} />
-        <StatBox k="Worst tournament" v={`T${prof.worstT.t.number}`} s={`${f2(prof.worstT.ppg)} PPG · ${prof.worstT.pos}${['st','nd','rd'][prof.worstT.pos - 1] || 'th'} place`} />
-      </div>
+      <StatCards prof={prof} />
 
       <section className="card">
         <h2>All tournaments</h2>
@@ -182,9 +173,8 @@ export default function PlayerDetail() {
             </select>
           </div>
         </div>
-        <div className="muted">Pick an opponent to see your full record against them.</div>
+        <HeadToHeadView a={name} b={vsOpp} />
       </section>
-      <HeadToHeadView a={name} b={vsOpp} />
 
       <section className="card">
         <div className="head">

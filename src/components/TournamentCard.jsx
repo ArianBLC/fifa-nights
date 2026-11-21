@@ -5,8 +5,28 @@ import { Avatar, signed } from './ui.jsx';
 
 const MEDAL = ['🥇', '🥈', '🥉'];
 
+/** Podium: 1st in the middle (biggest), 2nd left, 3rd right. `scale` enlarges avatars. */
+export function Podium({ t, scale = 1 }) {
+  const order = [1, 0, 2].filter((i) => t.table[i]);
+  return (
+    <div className="tpodium">
+      {order.map((i) => {
+        const r = t.table[i];
+        return (
+          <div key={r.player} className={`tstep ts${i + 1}`}>
+            {i === 0 && <div className="tcrown">👑</div>}
+            <Avatar name={r.player} size={Math.round((i === 0 ? 84 : 62) * scale)} />
+            <div className="tpname">{r.player}</div>
+            <div className="tppts"><b>{r.pts}</b> pts</div>
+            <div className="tblock">{MEDAL[i]}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function TournamentCard({ t, latest }) {
-  const podium = [1, 0, 2].filter((i) => t.table[i]);
   const others = t.table.slice(3);
   return (
     <Link to={`/tournaments/${t.number}`} className="tcard">
@@ -20,20 +40,7 @@ export default function TournamentCard({ t, latest }) {
         </div>
       </div>
 
-      <div className="tpodium">
-        {podium.map((i) => {
-          const r = t.table[i];
-          return (
-            <div key={r.player} className={`tstep ts${i + 1}`}>
-              {i === 0 && <div className="tcrown">👑</div>}
-              <Avatar name={r.player} size={i === 0 ? 84 : 62} />
-              <div className="tpname">{r.player}</div>
-              <div className="tppts"><b>{r.pts}</b> pts</div>
-              <div className="tblock">{MEDAL[i]}</div>
-            </div>
-          );
-        })}
-      </div>
+      <Podium t={t} />
 
       {others.length > 0 && (
         <div className="tothers">

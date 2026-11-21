@@ -9,10 +9,11 @@ export default function HeadToHeadView({ a, b }) {
   const byT = model.tournaments
     .map((t) => ({ t, ms: h.matches.filter((m) => m.tNumber === t.number) })).filter((x) => x.ms.length).reverse();
 
-  if (h.a.p === 0) return <section className="card">{a} and {b} have never met.</section>;
+  // Content only: the parent wraps it in a single card so H2H reads as one box.
+  if (h.a.p === 0) return <div className="muted">{a} and {b} have never met.</div>;
   return (
     <>
-      <section className="card">
+      <div>
         <div className="versus">
           <div><Avatar name={a} size={90} /><h2>{a}</h2><div className="big" style={{ color: 'var(--win)' }}>{h.a.w}</div><div className="muted">wins</div></div>
           <div><div className="muted">{h.a.p} matches</div><div className="big">{h.a.d}</div><div className="muted">draws</div></div>
@@ -35,17 +36,17 @@ export default function HeadToHeadView({ a, b }) {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="card">
-        <h2>All meetings</h2>
+      <div className="h2h-meetings">
+        <h3>All meetings</h3>
         {byT.map(({ t, ms }) => (
           <div key={t.number} style={{ marginBottom: 12 }}>
             <div className="muted">{t.name}</div>
             {ms.map((m) => <MatchLine key={m.idx} m={m} />)}
           </div>
         ))}
-      </section>
+      </div>
     </>
   );
 }
