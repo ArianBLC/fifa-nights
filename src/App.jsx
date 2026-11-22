@@ -9,8 +9,8 @@ import HallOfFame from './pages/HallOfFame.jsx';
 import AllTime from './pages/AllTime.jsx';
 
 const links = [
-  ['/', 'Home'], ['/tournaments', 'Tournaments'], ['/players', 'Players'],
-  ['/all-time', 'All-time'], ['/hall-of-fame', 'Hall of Fame'],
+  ['/', 'Home', '🏠'], ['/tournaments', 'Tournaments', '🏟️'], ['/players', 'Players', '👥'],
+  ['/all-time', 'All-time', '📊'], ['/hall-of-fame', 'Hall of Fame', '🏛️'],
 ];
 
 export default function App() {
@@ -22,18 +22,19 @@ export default function App() {
       <nav>
         <div className="inner">
           <NavLink to="/" className="brand">⚽ FIFA Nights</NavLink>
-          <button className="menu-btn" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}>
-            {open ? '✕' : '☰'}
+          <button className={'menu-btn' + (open ? ' open' : '')} aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}>
+            <span /><span /><span />
           </button>
           <div className={'links' + (open ? ' open' : '')}>
-            {links.map(([to, label]) => (
+            {links.map(([to, label, icon]) => (
               <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => 'link' + (isActive ? ' active' : '')}>
-                {label}
+                <span className="ico">{icon}</span>{label}
               </NavLink>
             ))}
           </div>
         </div>
       </nav>
+      {open && <div className="nav-backdrop" onClick={() => setOpen(false)} />}
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />

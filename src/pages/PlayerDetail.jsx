@@ -5,9 +5,40 @@ import { model } from '../data/model.js';
 import { playerProfile } from '../lib/stats.js';
 import HeadToHeadView from '../components/HeadToHeadView.jsx';
 import StatCards from '../components/StatCards.jsx';
+import PlayerTournaments from '../components/PlayerTournaments.jsx';
 import { Avatar, Badge, MatchLine, MedalChips, PlayerLink, Pos, StatBox, TrophyIcon, f2, pct, signed, tooltipStyle } from '../components/ui.jsx';
 
-const GameText = ({ g }) => <>{g.gf}–{g.ga} vs {g.opp} <span className="muted">({g.t.name.replace('Fifa tournament', 'T')})</span></>;
+const tLabel = (t) => `T${t.number} · ${t.month.slice(0, 3)} ${t.year}`;
+
+function RecordTile({ icon, title, tone, game }) {
+  return (
+    <div className="rec">
+      <div className="rec-title">{icon} {title}</div>
+      {game ? (
+        <>
+          <div className={`rec-score ${tone}`}>{game.gf}–{game.ga}</div>
+          <Link to={`/players/${encodeURIComponent(game.opp)}`} className="rec-who">
+            <Avatar name={game.opp} size={32} /><span>vs {game.opp}</span>
+          </Link>
+          <div className="rec-sub">{tLabel(game.t)}</div>
+        </>
+      ) : <div className="rec-score muted">–</div>}
+    </div>
+  );
+}
+
+function RivalTile({ icon, title, opp }) {
+  return (
+    <div className="rec">
+      <div className="rec-title">{icon} {title}</div>
+      <Link to={`/players/${encodeURIComponent(opp.opp)}`} className="rec-rival">
+        <Avatar name={opp.opp} size={56} />
+        <b>{opp.opp}</b>
+      </Link>
+      <div className="rec-sub"><b>{f2(opp.ppg)}</b> PPG · {opp.w}W {opp.d}D {opp.l}L</div>
+    </div>
+  );
+}
 
 export default function PlayerDetail() {
   const { name } = useParams();
@@ -69,24 +100,7 @@ export default function PlayerDetail() {
 
       <section className="card">
         <h2>All tournaments</h2>
-        <div className="table-wrap">
-          <table>
-            <thead><tr>
-              <th className="left">Tournament</th><th>Pos</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>PPG</th>
-            </tr></thead>
-            <tbody>
-              {[...entries].reverse().map((e) => (
-                <tr key={e.t.number} className="click" onClick={() => nav(`/tournaments/${e.t.number}`)}>
-                  <td className="left"><b>{e.t.name}</b> {e.champion && <TrophyIcon />}</td>
-                  <td><Pos n={e.pos} /> <span className="muted">/{e.of}</span></td>
-                  <td>{e.p}</td><td>{e.w}</td><td>{e.d}</td><td>{e.l}</td><td>{e.gf}</td><td>{e.ga}</td>
-                  <td>{signed(e.gd)}</td><td className="strong">{e.pts}</td><td>{f2(e.ppg)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="muted" style={{ fontSize: '.8rem', marginTop: 6 }}>Click a row to open that tournament.</div>
+        <PlayerTournaments entries={entries} />
       </section>
 
       <div className="grid cols2">
@@ -142,12 +156,12 @@ export default function PlayerDetail() {
       <div className="grid cols2">
         <section className="card">
           <h2>Records & rivals</h2>
-          <ul className="clean">
-            <li><span className="muted">Biggest win</span><b>{prof.biggestWin ? <GameText g={prof.biggestWin} /> : '–'}</b></li>
-            <li><span className="muted">Heaviest defeat</span><b>{prof.heaviestLoss ? <GameText g={prof.heaviestLoss} /> : '–'}</b></li>
-            <li><span className="muted">Best record against</span><b><PlayerLink name={o[0].opp} size={22} /> {f2(o[0].ppg)} PPG</b></li>
-            <li><span className="muted">Toughest opponent</span><b><PlayerLink name={o[o.length - 1].opp} size={22} /> {f2(o[o.length - 1].ppg)} PPG</b></li>
-          </ul>
+          <div className="rec-grid">
+            <RecordTile icon="🔥" title="Biggest win" tone="win" game={prof.biggestWin} />
+            <RecordTile icon="💔" title="Heaviest defeat" tone="loss" game={prof.heaviestLoss} />
+            <RivalTile icon="💪" title="Best record against" opp={o[0]} />
+            <RivalTile icon="😤" title="Toughest opponent" opp={o[o.length - 1]} />
+          </div>
         </section>
         <section className="card">
           <h2>Record against each player</h2>

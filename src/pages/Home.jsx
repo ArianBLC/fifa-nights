@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { model, nextNight } from '../data/model.js';
 import { Countdown, MedalCabinet, PlayerLink, f2, pct } from '../components/ui.jsx';
 import { TournamentGrid } from '../components/TournamentCard.jsx';
+import StandingsMatrix from '../components/StandingsMatrix.jsx';
 
 const RECENT = 3; // always show the 3 most recent tournaments
 
@@ -47,6 +48,11 @@ export default function Home() {
           </table>
         </div>
         <div className="muted" style={{ fontSize: '.8rem', marginTop: 6 }}>Ranked by points per game, so missing a few nights doesn't hurt.</div>
+      </section>
+
+      <section className="card">
+        <div className="head"><h2>🗓️ Tournament history</h2></div>
+        <StandingsMatrix />
       </section>
 
     </>

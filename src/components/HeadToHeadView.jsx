@@ -22,7 +22,12 @@ export default function HeadToHeadView({ a, b }) {
         <div className="bar">
           <div style={{ width: `${(h.a.w / total) * 100}%`, background: 'var(--accent)' }} />
           <div style={{ width: `${(h.a.d / total) * 100}%`, background: 'var(--draw)' }} />
-          <div style={{ width: `${(h.b.w / total) * 100}%`, background: '#4cc3ff' }} />
+          <div style={{ width: `${(h.b.w / total) * 100}%`, background: 'var(--loss)' }} />
+        </div>
+        <div className="sc-legend" style={{ justifyContent: 'center', marginBottom: 12 }}>
+          <span><i style={{ background: 'var(--win)' }} />{a} wins</span>
+          <span><i style={{ background: 'var(--draw)' }} />draws</span>
+          <span><i style={{ background: 'var(--loss)' }} />{b} wins</span>
         </div>
         <div className="grid cols3">
           <div className="stat"><div className="k">Goals</div><div className="v">{h.a.gf} : {h.a.ga}</div><div className="s">{a} {signed(h.a.gd)} · {f2(h.a.gf / h.a.p)} per game</div></div>
