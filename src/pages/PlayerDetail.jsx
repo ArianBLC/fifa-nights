@@ -6,6 +6,7 @@ import { playerProfile } from '../lib/stats.js';
 import HeadToHeadView from '../components/HeadToHeadView.jsx';
 import StatCards from '../components/StatCards.jsx';
 import PlayerTournaments from '../components/PlayerTournaments.jsx';
+import { TrophyRoom, useTrophies } from '../components/Trophies.jsx';
 import { Avatar, Badge, MatchLine, MedalChips, PlayerLink, Pos, StatBox, TrophyIcon, f2, pct, signed, tooltipStyle } from '../components/ui.jsx';
 
 const tLabel = (t) => `T${t.number} · ${t.month.slice(0, 3)} ${t.year}`;
@@ -49,6 +50,7 @@ export default function PlayerDetail() {
   const [page, setPage] = useState(0);
   const [h2hOpp, setH2h] = useState(null);
   const prof = useMemo(() => (model.allPlayers.includes(name) ? playerProfile(model, name) : null), [name]);
+  const trophies = useTrophies(prof || { games: [], entries: [] });
   if (!prof) return <p>Player not found. <Link to="/players">Back</Link></p>;
   const { row: r, entries, games } = prof;
 
@@ -219,6 +221,8 @@ export default function PlayerDetail() {
           </div>
         )}
       </section>
+
+      <TrophyRoom data={trophies} />
     </>
   );
 }

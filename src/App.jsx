@@ -7,10 +7,11 @@ import Players from './pages/Players.jsx';
 import PlayerDetail from './pages/PlayerDetail.jsx';
 import HallOfFame from './pages/HallOfFame.jsx';
 import AllTime from './pages/AllTime.jsx';
+import Trophies from './pages/Trophies.jsx';
 
 const links = [
   ['/', 'Home', '🏠'], ['/tournaments', 'Tournaments', '🏟️'], ['/players', 'Players', '👥'],
-  ['/all-time', 'All-time', '📊'], ['/hall-of-fame', 'Hall of Fame', '🏛️'],
+  ['/all-time', 'All-time', '📊'], ['/hall-of-fame', 'Hall of Fame', '🏛️'], ['/trophies', 'Trophies', '🏆'],
 ];
 
 export default function App() {
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/players/:name" element={<PlayerDetail />} />
           <Route path="/all-time" element={<AllTime />} />
           <Route path="/hall-of-fame" element={<HallOfFame />} />
+          <Route path="/trophies" element={<Trophies />} />
           <Route path="/head-to-head" element={<Navigate to="/players" replace />} />
           <Route path="*" element={<p>Page not found.</p>} />
         </Routes>

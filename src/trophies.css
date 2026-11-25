@@ -1,0 +1,126 @@
+/* ---------- Trophies ---------- */
+:root {
+  --tier-wood: #a8743d; --tier-bronze: #d38b4d; --tier-silver: #c4ccd2; --tier-gold: #ffcf3f; --tier-diamond: #6fe3ff;
+}
+.tier-wood { --tc: var(--tier-wood); } .tier-bronze { --tc: var(--tier-bronze); } .tier-silver { --tc: var(--tier-silver); }
+.tier-gold { --tc: var(--tier-gold); } .tier-diamond { --tc: var(--tier-diamond); }
+
+.tbadge { object-fit: contain; display: block; }
+.tbadge.fallback { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--tc) 55%, #fff) 0%, var(--tc) 45%, #1a1a1a 130%);
+  border: 3px solid var(--tc); box-shadow: 0 0 0 3px #0008 inset; }
+.tbadge.locked { filter: grayscale(1) brightness(.6); opacity: .4; }
+.tbadge.locked.fallback { background: var(--panel2); border-color: var(--line); }
+
+.pips { display: flex; gap: 4px; justify-content: center; margin: 4px 0; }
+.pip { width: 8px; height: 8px; border-radius: 50%; background: var(--panel); border: 2px solid var(--line); }
+.pip.on { background: var(--tc); border-color: var(--tc); box-shadow: 0 0 6px color-mix(in srgb, var(--tc) 60%, transparent); }
+
+.troom { background: radial-gradient(ellipse at 50% -10%, #1f4a35 0%, var(--panel) 55%); }
+.troom-more { display: block; margin: 12px auto 0; }
+.troom-sum b { color: var(--gold); }
+.trophy-grid { display: grid; gap: 10px; grid-template-columns: repeat(5, 1fr); margin-top: 12px; }
+.trophy-card { position: relative; text-align: center; font: inherit; color: inherit; cursor: pointer; padding: 4px 4px 8px;
+  border: 0; background: none; transition: transform .2s; }
+.trophy-card:hover { transform: translateY(-4px); }
+.trophy-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 14px; }
+/* the trophy stands on a glowing spotlight and a floor shadow, no card box */
+.tstage { position: relative; display: flex; justify-content: center; align-items: flex-end; padding: 6px 0 12px; transition: transform .25s; }
+.tstage::before { content: ''; position: absolute; left: 50%; top: 46%; width: 150%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--tc, #ffffff) 30%, transparent) 0%, transparent 62%); }
+.tstage::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 70%; height: 10px; transform: translateX(-50%);
+  border-radius: 50%; background: radial-gradient(ellipse, #000c 0%, transparent 70%); }
+.trophy-card.is-locked .tstage::before { display: none; }
+.trophy-card .tbadge:not(.locked) { position: relative; z-index: 1; filter: drop-shadow(0 6px 10px #000a) drop-shadow(0 0 14px color-mix(in srgb, var(--tc) 45%, transparent)); }
+.trophy-card .tbadge.locked { position: relative; z-index: 1; }
+.trophy-card:hover .tstage { transform: scale(1.08); }
+.trophy-card.tier-diamond .tstage::before { animation: glowpulse 3s ease-in-out infinite; }
+@keyframes glowpulse { 50% { opacity: .55; transform: translate(-50%, -50%) scale(1.1); } }
+.tstage .lock { position: absolute; right: 18%; bottom: 14px; font-size: 1.2rem; z-index: 2; }
+.tname { font-weight: 800; font-size: .95rem; margin-top: 2px; }
+.tlabel { font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--tc, var(--muted)); font-weight: 800; }
+.tbar { height: 4px; border-radius: 99px; background: #ffffff14; overflow: hidden; margin: 6px 14% 4px; }
+.tbar i { display: block; height: 100%; border-radius: 99px; background: var(--tc); box-shadow: 0 0 8px var(--tc); transition: width .6s; }
+.tprog { font-size: .75rem; font-weight: 700; }
+.tprog span { color: var(--muted); font-weight: 500; }
+.ribbon { position: absolute; top: 2px; left: 50%; transform: translateX(-50%); z-index: 3; background: var(--tc); color: #111;
+  font-size: .58rem; font-weight: 900; padding: 1px 8px; border-radius: 99px; letter-spacing: .1em; }
+@media (prefers-reduced-motion: reduce) { .trophy-card.tier-diamond .tstage::before { animation: none; } .trophy-card, .tstage { transition: none; } }
+
+.showcase { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; color: inherit; }
+.sc-icon { display: inline-flex; border-radius: 50%; padding: 3px; background: #0b1410aa; border: 2px solid var(--tc);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--tc) 45%, transparent); transition: transform .15s; }
+.sc-icon:hover { transform: scale(1.12); }
+.showcase-pill { background: #0b1410aa; border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; font-weight: 700; font-size: .9rem; }
+
+.tmodal-bg { position: fixed; inset: 0; background: #000b; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.tmodal { position: relative; width: min(560px, 100%); max-height: 92vh; overflow: auto; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 18px; padding: 22px 16px 18px; }
+.tmodal-x { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: var(--muted); font-size: 1.1rem; cursor: pointer; }
+.tmodal-head { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.tmodal-head .tbadge:not(.locked) { filter: drop-shadow(0 8px 14px #000a) drop-shadow(0 0 22px color-mix(in srgb, var(--tc) 50%, transparent)); }
+.tmodal-head h3 { margin: 6px 0 0; font-size: 1.4rem; }
+.tmodal-val { margin-top: 6px; } .tmodal-val b { font-size: 1.6rem; color: var(--gold); }
+.ladder { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 16px; }
+.rung { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 2px; border-radius: 12px; background: var(--panel2);
+  border: 1px solid var(--line); text-align: center; }
+.rung.on { border-color: var(--tc); background: color-mix(in srgb, var(--tc) 12%, var(--panel2)); }
+.rung b { font-size: 1rem; } .rung span { font-size: .62rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.rung em { font-style: normal; color: var(--accent); font-weight: 900; height: 1em; font-size: .85rem; }
+
+@media (max-width: 600px) {
+  .trophy-grid { grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  .trophy-card { padding: 2px 0 6px; }
+  .trophy-card .tbadge { width: 68px !important; height: 68px !important; font-size: 2rem !important; }
+  .tstage { padding: 4px 0 8px; }
+  .tname { font-size: .62rem; line-height: 1.15; min-height: 2.3em; display: flex; align-items: center; justify-content: center; }
+  .tlabel { font-size: .52rem; letter-spacing: .05em; }
+  .pip { width: 6px; height: 6px; border-width: 1px; } .pips { gap: 3px; }
+  .tprog { font-size: .56rem; } .tprog span { display: none; }
+  .ribbon { font-size: .48rem; padding: 1px 5px; }
+  .tstage .lock { font-size: .8rem; bottom: 10px; }
+  .tbar { margin: 4px 10% 3px; }
+  .tmodal-head .tbadge { width: 200px !important; height: 200px !important; font-size: 6rem !important; }
+  .ladder { gap: 4px; } .rung .tbadge { width: 48px !important; height: 48px !important; font-size: 1.4rem !important; }
+}
+
+/* ---------- Trophies page ---------- */
+.tr-block { scroll-margin-top: 70px; background: radial-gradient(ellipse at 50% -20%, #1b3f2d 0%, var(--panel) 60%); }
+.tr-head { display: flex; align-items: baseline; gap: 10px 14px; flex-wrap: wrap; }
+.tr-head h2 { margin: 0; }
+.tr-tiers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+.tr-tier { text-align: center; min-width: 0; }
+.tr-icon { position: relative; background: none; border: 0; padding: 6px 0 12px; cursor: pointer; display: inline-flex; justify-content: center; transition: transform .25s; }
+.tr-icon::before { content: ''; position: absolute; left: 50%; top: 46%; width: 150%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  border-radius: 50%; pointer-events: none; background: radial-gradient(circle, color-mix(in srgb, var(--tc) 28%, transparent) 0%, transparent 62%); }
+.tr-tier:not(.has) .tr-icon::before { display: none; }
+.tr-icon::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 70%; height: 10px; transform: translateX(-50%);
+  border-radius: 50%; background: radial-gradient(ellipse, #000c 0%, transparent 70%); }
+.tr-icon .tbadge { position: relative; z-index: 1; }
+.tr-tier.has .tr-icon .tbadge { filter: drop-shadow(0 6px 10px #000a) drop-shadow(0 0 14px color-mix(in srgb, var(--tc) 45%, transparent)); }
+.tr-icon:hover { transform: scale(1.08); }
+.tr-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 800; color: var(--tc); }
+.tr-need { font-weight: 800; font-size: 1.1rem; }
+.holders { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 6px; margin-top: 8px; }
+.holders.none { color: var(--muted); }
+.holder { display: flex; flex-direction: column; align-items: center; width: 62px; color: inherit; }
+.holder:hover { color: var(--accent); }
+.holder .avatar { border-color: var(--tc); }
+.holder .hn { font-size: .72rem; margin-top: 2px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.holder .hv { font-size: .78rem; font-weight: 800; color: var(--tc); }
+.more { display: none; font-size: .75rem; font-weight: 800; color: var(--muted); align-self: center; }
+@media (prefers-reduced-motion: reduce) { .tr-icon { transition: none; } }
+
+@media (max-width: 600px) {
+  .tr-tiers { gap: 2px; }
+  .tr-icon .tbadge { width: 56px !important; height: 56px !important; font-size: 1.6rem !important; }
+  .tr-label { font-size: .5rem; letter-spacing: .04em; }
+  .tr-need { font-size: .85rem; }
+  .holders { gap: 6px 2px; }
+  .holder { width: 100%; }
+  .holder .avatar { width: 26px !important; height: 26px !important; border-width: 1px; }
+  .holder .hn { font-size: .56rem; } .holder .hv { font-size: .62rem; }
+  .holder.extra { display: none; }
+  .more { display: block; font-size: .65rem; }
+}

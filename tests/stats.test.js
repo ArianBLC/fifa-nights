@@ -44,3 +44,26 @@ test('head-to-head and profile are consistent', () => {
   assert.equal(prof.entries.length, 2); // skipped tournament 1
   assert.equal(prof.row.p, 18);
 });
+
+test('trophies: tier boundaries and streaks', async () => {
+  const { tierIndex, computeTrophies } = await import('../src/lib/trophies.js');
+  const th = [50, 100, 200, 500, 1000];
+  assert.equal(tierIndex(th, 49), -1);
+  assert.equal(tierIndex(th, 50), 0);
+  assert.equal(tierIndex(th, 999), 3);
+  assert.equal(tierIndex(th, 1000), 4);
+
+  const g = (gf, ga, opp = 'X') => ({ gf, ga, opp, result: gf > ga ? 'W' : gf < ga ? 'L' : 'D' });
+  const games = [g(1, 0), g(2, 0), g(6, 0, 'Amir'), g(0, 0), g(0, 5), g(0, 1), g(0, 2)];
+  const out = Object.fromEntries(computeTrophies({ games, entries: [1, 2, 3, 4, 5] }).map((t) => [t.id, t]));
+  assert.equal(out.unstoppable.value, 3);      // best win streak
+  assert.equal(out.fortress.value, 4);         // clean sheets in a row
+  assert.equal(out.survivor.value, 4);         // unbeaten run
+  assert.equal(out.nightmare.value, 3);        // losses in a row
+  assert.equal(out.parkthebus.value, 1);
+  assert.equal(out.destroyer.value, 1);
+  assert.equal(out.humble.value, 1);
+  assert.equal(out.amirslayer.value, 1);
+  assert.equal(out.nightking.tier, 'bronze');
+  assert.equal(out.wall.value, 4);
+});
